@@ -70,6 +70,7 @@ protected:
   core::PathFollowingSetPoint setpoint_;
   core::SharedVariable<OdometryMeasure> odometry_measure_;
   std::unique_ptr<core::PathFollowingBase<CommandType>> path_following_;
+  std::shared_ptr<core::SimpleFileLogger> logger_;
 
   std::unique_ptr<VehicleInterface> cmd_interface_;
   rclcpp::SubscriptionBase::SharedPtr matching_sub_;

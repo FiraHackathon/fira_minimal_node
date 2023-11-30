@@ -97,7 +97,9 @@ make_path_section_following_from_list(std::shared_ptr<Node> node, const std::str
 
 template<typename CommandType, typename Node>
 std::unique_ptr<core::PathFollowingBase<CommandType>>
-make_path_following(std::shared_ptr<Node> node)
+make_path_following(
+  std::shared_ptr<Node> node,
+  std::shared_ptr<core::SimpleFileLogger> logger = nullptr)
 {
   declare_inertia(node);
   declare_wheelbase(node);
@@ -106,10 +108,10 @@ make_path_following(std::shared_ptr<Node> node)
 
   if constexpr (std::is_same_v<CommandType, core::OneAxleSteeringCommand>) {
     return std::make_unique<core::OneAxleSteeringPathFollowing>(
-      std::move(path_section_following), nullptr);
+      std::move(path_section_following), logger);
   } else if constexpr (std::is_same_v<CommandType, core::TwoAxleSteeringCommand>) {
     return std::make_unique<core::TwoAxleSteeringPathFollowing>(
-      std::move(path_section_following), nullptr);
+      std::move(path_section_following), logger);
   } else {
     return nullptr;
   }

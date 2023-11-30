@@ -28,9 +28,6 @@ MinimalPathFollowingNode<CommandType>::MinimalPathFollowingNode(const rclcpp::No
 : node_(std::make_unique<rclcpp::Node>("fira_minimal_node", options))
 {
 
-  RCLCPP_ERROR_STREAM(
-    node_->get_logger(),
-    "fira_minimal_node!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
   declare_command_interface_configuration(node_, "cmd_output");
   declare_parameter_with_default(node_, "joy_start_button", XBOX_X_BUTTON);
   declare_parameter_with_default(node_, "joy_stop_button", XBOX_B_BUTTON);
@@ -46,7 +43,9 @@ MinimalPathFollowingNode<CommandType>::MinimalPathFollowingNode(const rclcpp::No
 
   auto interface_config = get_command_interface_configuration(node_, "cmd_output");
   cmd_interface_ = std::make_unique<VehicleInterface>(node_, std::move(interface_config));
-  path_following_ = make_path_following<CommandType>(node_);
+
+  logger_ = std::make_shared<core::SimpleFileLogger>("/tmp/path_following.csv");
+  path_following_ = make_path_following<CommandType>(node_, logger_);
 
   using namespace std::placeholders;
   auto matching_cb = std::bind(&MinimalPathFollowingNode::process_matching_info_, this, _1);
@@ -61,9 +60,6 @@ MinimalPathFollowingNode<CommandType>::MinimalPathFollowingNode(const rclcpp::No
   joystick_sub_ = node_->create_subscription<sensor_msgs::msg::Joy>(
     "joy", reliable(1), std::move(joystick_cb));
 
-  RCLCPP_ERROR_STREAM(
-    node_->get_logger(),
-    "fira_minimal_node!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! OK");
   cmd_interface_->start();
 }
 
@@ -96,14 +92,14 @@ void MinimalPathFollowingNode<CommandType>::process_matching_info_(
   core::Twist2D filtered_twist = to_romea(msg->twist);
   std::vector<core::PathMatchedPoint2D> matchedPoints = to_romea(msg->matched_points);
 
-  // std::cout << matchedPoints[0] << std::endl;
-
   if (cmd_interface_->is_started()) {
     CommandType command = path_following_->computeCommand(
       setpoint_, matchedPoints, odometry_measure_.load(), filtered_twist);
 
     cmd_interface_->send_command(command);
+    logger_->writeRow();
   }
+
 }
 
 //-----------------------------------------------------------------------------
