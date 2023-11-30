@@ -46,7 +46,7 @@ MinimalPathFollowingNode<CommandType>::MinimalPathFollowingNode(const rclcpp::No
 
   declare_log_directory(node_);
   logger_ = std::make_shared<core::SimpleFileLogger>(
-    get_log_directory(node_) + "/path_following.yaml");
+    get_log_directory(node_) + "/path_following.csv");
   path_following_ = make_path_following<CommandType>(node_, logger_);
 
   using namespace std::placeholders;
