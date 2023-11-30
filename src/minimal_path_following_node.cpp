@@ -3,13 +3,13 @@
 // #include <type_traits>
 
 
+#include "romea_common_utils/params/algorithm_parameters.hpp"
 #include "fira_minimal_node/minimal_path_following_node.hpp"
 #include "fira_minimal_node/command_factory.hpp"
 #include "romea_path_utils/path_matching_info_conversions.hpp"
 #include "romea_common_utils/conversions/twist2d_conversions.hpp"
 #include "romea_mobile_base_utils/conversions/kinematic_conversions.hpp"
 #include "romea_mobile_base_utils/params/command_interface_parameters.hpp"
-
 
 namespace
 {
@@ -44,7 +44,9 @@ MinimalPathFollowingNode<CommandType>::MinimalPathFollowingNode(const rclcpp::No
   auto interface_config = get_command_interface_configuration(node_, "cmd_output");
   cmd_interface_ = std::make_unique<VehicleInterface>(node_, std::move(interface_config));
 
-  logger_ = std::make_shared<core::SimpleFileLogger>("/tmp/path_following.csv");
+  declare_log_directory(node_);
+  logger_ = std::make_shared<core::SimpleFileLogger>(
+    get_log_directory(node_) + "/path_following.yaml");
   path_following_ = make_path_following<CommandType>(node_, logger_);
 
   using namespace std::placeholders;
