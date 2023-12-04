@@ -13,12 +13,12 @@ This package provides an example of how to implement a trajectory following algo
 - odometry (depend of the vehicle type)
  
     This topic is published by the robot controller. According robot kinenatic this message is different, it's a :
-        - romea_mobile_base_msgs::msg::OneAxleSteeringMeasure message when the robot has an one axle steering kinematic
-        - romea_mobile_base_msgs::msg::TwoAxleSteeringMeasure message when the robot has an one two steering kinematic
-        - romea_mobile_base_msgs::msg::SkidSteeringMeasure message when the robot has a skid steering kinematic
-        - romea_mobile_base_msgs::msg::OmniteeringMeasure message when the robot has an omni steering kinematic
+        -   romea_mobile_base_msgs::msg::OneAxleSteeringMeasure message when the robot has an one axle steering kinematic
+        -   romea_mobile_base_msgs::msg::TwoAxleSteeringMeasure message when the robot has an one two steering kinematic
+        -   romea_mobile_base_msgs::msg::SkidSteeringMeasure message when the robot has a skid steering kinematic
+        -   romea_mobile_base_msgs::msg::OmniteeringMeasure message when the robot has an omni steering kinematic
 
--joy (sensors_msgs::msg::Joy) 
+- joy (sensors_msgs::msg::Joy) 
 
     This topic is publish by joystick node. It's used to start and stop the trajectory following algorithm.
 
@@ -27,10 +27,10 @@ This package provides an example of how to implement a trajectory following algo
 - cmd_output (depend of the vehicle type)
 
     This topic contains command sended to robot controller. According robot kinenatic this message is different, it's a :
-        - romea_mobile_base_msgs::msg::OneAxleSteeringCommand message when the robot has an one axle steering kinematic
-        - romea_mobile_base_msgs::msg::TwoAxleSteeringCommand message when the robot has an one two steering kinematic
-        - romea_mobile_base_msgs::msg::SkidSteeringCommand message when the robot has a skid steering kinematic
-        - romea_mobile_base_msgs::msg::OmniteeringCommand message when the robot has an omni steering kinematic
+        -   romea_mobile_base_msgs::msg::OneAxleSteeringCommand message when the robot has an one axle steering kinematic
+        -   romea_mobile_base_msgs::msg::TwoAxleSteeringCommand message when the robot has an one two steering kinematic
+        -   romea_mobile_base_msgs::msg::SkidSteeringCommand message when the robot has a skid steering kinematic
+        -   romea_mobile_base_msgs::msg::OmniteeringCommand message when the robot has an omni steering kinematic
 
 ### 2.3 Parameters ###
 
